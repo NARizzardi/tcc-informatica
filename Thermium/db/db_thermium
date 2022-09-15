@@ -1,0 +1,61 @@
+
+--SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+--SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+--SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+--
+
+
+-- -----------------------------------------------------
+-- Table mydb.tbSubstancia
+-- -----------------------------------------------------
+CREATE TABLE tbSubstancia (
+  formula_tbSubstancia VARCHAR(40) NOT NULL,
+  nome_tbSubstancia VARCHAR(50),
+  entalpia_tbSubstancia DOUBLE NOT NULL,
+  id_tbSubstancia INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+  estadoFisico_tbSubstancia VARCHAR(5) NOT NULL,
+  PRIMARY KEY (id_tbSubstancia));
+--ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table mydb.tbElemento
+-- -----------------------------------------------------
+CREATE TABLE tbElemento (
+  nome_tbElemento VARCHAR(50),
+  simbolo_tbElemento VARCHAR(3) NOT NULL UNIQUE,
+  numeroAtomico_tbElemento INT NOT NULL,
+  PRIMARY KEY (numeroAtomico_tbElemento));
+--ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table mydb.tbSubstanciaElemento
+-- -----------------------------------------------------
+CREATE TABLE tbSubstanciaElemento (
+  numeroAtomico_tbElemento INT NOT NULL
+  	CONSTRAINT numeroAtomico_tbElemento_fk
+    REFERENCES tbElemento
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT,
+  id_tbSubstancia INT NOT NULL 
+  	CONSTRAINT id_tbSubstancia_fk
+    REFERENCES tbSubstancia
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT,
+  quantidade INT NOT NULL,
+  PRIMARY KEY (numeroAtomico_tbElemento, id_tbSubstancia));
+ 
+  insert into tbSubstanciaElemento values (6, 1, 1);
+  select * from TBELEMENTO;
+  select * from TBSubstancia;
+  select * from TBSubstanciaElemento;
+  
+  DELETE from TBELEMENTO;
+  
+--ENGINE = InnoDB;
+
+
+--SET SQL_MODE=@OLD_SQL_MODE;
+--SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+--SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
